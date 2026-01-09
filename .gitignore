@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyc
+*.pyo
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# Environment Variables (중요!)
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+nul
+
+# Logs
+*.log
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# pytest
+.pytest_cache/
+.coverage
+
+# MyPy
+.mypy_cache/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Debug files
+runpod_response_*.json
+prompt_*.txt
+last_prompt.txt
+
+# Claude Code
+.claude/
+CLAUDE.md
+
+# Legacy directories and files (사용 안 함)
+crawling/
+data_old/
+debug_html/
+API_README.md
+GITHUB_SETUP.md
+
+# Data files (GitHub에 업로드하지 않음, 용량이 큼)
+data/
