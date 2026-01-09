@@ -37,8 +37,7 @@ open_track2/
 ├── README.md                     # 프로젝트 설명
 ├── API_SPEC.md                   # API 명세서
 ├── API_IO_FORMAT.md              # 입출력 형식 상세
-├── WEBHOOK_FORMAT.md             # Webhook 페이로드 명세
-└── CLAUDE.md                     # Claude Code 개발 가이드
+└── WEBHOOK_FORMAT.md             # Webhook 페이로드 명세
 ```
 
 **참고**: `data/` 디렉토리(대용량 CSV 파일)는 GitHub에 포함되지 않습니다. 별도로 관리해야 합니다.
@@ -96,7 +95,7 @@ uvicorn api.main:app --host 0.0.0.0 --port 8000
 ### 해설 생성 요청 (Spring → FastAPI)
 
 ```bash
-POST http://fastapi-서버:8000/api/commentary/jobs
+POST http://fastapi-서버:8000/ai/commentary/jobs
 Content-Type: application/json
 ```
 
@@ -159,7 +158,7 @@ Content-Type: application/json
 
 **성공 시**:
 ```json
-POST http://spring-server:8080/api/callback/ai-result
+POST http://spring-server:8080/ai/callback/ai-result
 {
   "jobId": "job_82f395",
   "gameId": "126283",
@@ -192,7 +191,7 @@ POST http://spring-server:8080/api/callback/ai-result
 Webhook 실패 대비 폴링 방식도 지원합니다:
 
 ```bash
-GET http://fastapi-서버:8000/api/commentary/jobs/{jobId}
+GET http://fastapi-서버:8000/ai/commentary/jobs/{jobId}
 ```
 
 자세한 내용은 [API_SPEC.md](API_SPEC.md), [WEBHOOK_FORMAT.md](WEBHOOK_FORMAT.md)를 참조하세요.
@@ -240,6 +239,8 @@ AI가 액션의 맥락(위치, 타입, 결과)을 분석하여 자동으로 적�
 - **지시 대명사 금지**: "이쪽", "저기" 같은 표현 사용 안 함
 - **명확한 주어**: 누가, 어디로, 무엇을 했는지 구체적으로 설명
 - **팀명/유니폼 언급**: 가끔씩 팀 정보를 언급하여 청취자 이해 돕기
+- **좌표 숫자 사용 금지**: 숫자 좌표나 미터 수치를 절대 언급하지 않고, 자연스러운 위치 표현만 사용
+- **포지션 언급**: 중요한 순간에 가끔씩 선수 포지션을 자연스럽게 언급
 
 ### 좌표 시스템 명확화
 
@@ -283,7 +284,7 @@ action_id,period_id,time_seconds,start_x,start_y,end_x,end_y,...
 ```
 ┌─────────────┐    ① POST /jobs     ┌──────────────┐
 │   Spring    │────────────────────>│   FastAPI    │
-│  Backend    │  (50 actions)       │    Server    │
+│  Backend    │  (10 actions)       │    Server    │
 └─────────────┘                     └──────────────┘
        ↑                                    │
        │         ② jobId: PENDING           ↓
@@ -301,7 +302,7 @@ action_id,period_id,time_seconds,start_x,start_y,end_x,end_y,...
        │                                    ↓
        │         ⑤ Webhook 전송         [Job Store]
        └─────────────────────────────────────┘
-            POST /callback/ai-result
+            POST /ai/callback/ai-result
             (자동, 백업: 폴링 GET /jobs/{id})
 ```
 
@@ -412,14 +413,13 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
 
 1. RunPod 엔드포인트 상태 확인
 2. 서버 로그에서 `[DEBUG]` 메시지 확인
-3. Job Store 상태 확인: `GET /api/commentary/jobs`
+3. Job Store 상태 확인: `GET /ai/commentary/jobs`
 
 ## 문서
 
 - [API_SPEC.md](API_SPEC.md) - API 상세 명세
 - [API_IO_FORMAT.md](API_IO_FORMAT.md) - 입출력 형식 상세
 - [WEBHOOK_FORMAT.md](WEBHOOK_FORMAT.md) - Webhook 페이로드 명세
-- [CLAUDE.md](CLAUDE.md) - Claude Code 개발 가이드
 
 ## 라이선스
 
