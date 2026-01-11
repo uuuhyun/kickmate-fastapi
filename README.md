@@ -54,8 +54,9 @@ pip install -r requirements.txt
 - `fastapi` - 웹 프레임워크
 - `uvicorn` - ASGI 서버
 - `httpx` - HTTP 클라이언트 (RunPod, Webhook 통신)
-- `pandas` - 데이터 처리
+- `pydantic` - 데이터 검증
 - `python-dotenv` - 환경 변수 관리
+- `gunicorn` - WSGI 서버 (운영 환경용)
 
 ### 2. 환경 변수 설정
 
@@ -327,6 +328,52 @@ docker build -t kleague-ai-api .
 docker run -d -p 8000:8000 --env-file .env kleague-ai-api
 ```
 
+### Azure App Service 배포 (권장)
+
+Azure App Service를 사용한 PaaS 배포 방법입니다.
+
+#### 1. Azure Portal에서 App Service 생성
+
+- Runtime stack: **Python 3.10**
+- Operating System: **Linux**
+
+#### 2. 환경 변수 설정
+
+Azure Portal → App Service → Configuration → Application settings에서 다음 환경 변수 추가:
+
+| Name | Value |
+|------|-------|
+| `RUNPOD_API_KEY` | RunPod API 키 |
+| `RUNPOD_ENDPOINT_URL` | RunPod 엔드포인트 URL |
+| `SPRING_WEBHOOK_URL` | Spring Backend Webhook URL |
+| `SCM_DO_BUILD_DURING_DEPLOYMENT` | `true` |
+
+#### 3. ZIP 배포
+
+```bash
+# 배포 파일 준비 (api/, system_prompts.py, requirements.txt 등)
+# azure_deployment.zip 생성 후 Azure Portal에서 업로드
+
+# 또는 Azure CLI 사용
+az webapp deploy --resource-group <resource-group> --name <app-name> --src-path azure_deployment.zip --type zip
+```
+
+#### 4. Startup Command 설정
+
+Azure Portal → App Service → Configuration → General settings → Startup Command:
+
+```bash
+gunicorn -k uvicorn.workers.UvicornWorker api.main:app --bind=0.0.0.0:8000 --timeout 120
+```
+
+#### 5. 배포 확인
+
+- API 서버: `https://<app-name>.azurewebsites.net`
+- Swagger 문서: `https://<app-name>.azurewebsites.net/docs`
+- 로그 확인: Azure Portal → App Service → Log stream
+
+---
+
 ### AWS EC2 배포
 
 ```bash
@@ -341,8 +388,7 @@ source venv/bin/activate
 # 의존성 설치
 pip install -r requirements.txt
 
-# Gunicorn 실행
-pip install gunicorn
+# Gunicorn 실행 (requirements.txt에 포함됨)
 gunicorn api.main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8000
 ```
 
@@ -427,5 +473,5 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
 
 ---
 
-**버전**: 2.0
-**최종 업데이트**: 2026-01-09
+**버전**: 2.1
+**최종 업데이트**: 2026-01-11
