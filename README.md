@@ -363,7 +363,7 @@ az webapp deploy --resource-group <resource-group> --name <app-name> --src-path 
 Azure Portal → App Service → Configuration → General settings → Startup Command:
 
 ```bash
-gunicorn -k uvicorn.workers.UvicornWorker api.main:app --bind=0.0.0.0:8000 --timeout 120
+pip install -r requirements.txt && gunicorn -k uvicorn.workers.UvicornWorker api.main:app --bind=0.0.0.0:8000 --timeout 120
 ```
 
 #### 5. 배포 확인
