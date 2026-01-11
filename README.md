@@ -300,9 +300,9 @@ action_id,period_id,time_seconds,start_x,start_y,end_x,end_y,...
        │                            │    RunPod Serverless (GPU)  │
        │                            │  ┌───────────────────────┐  │
        │         ④ 10개 해설 생성    │  │    vLLM (Serving)     │  │
-       │         (tone+description) │  │  ┌─────────────────┐  │  │
-       │                            │  │  │skt/A.X-4.0-Light│  │  │
-       │                            │  │  └─────────────────┘  │  │
+       │         (tone+description) │  │  ┌─────────────────────────────┐  │  │
+       │                            │  │  │EXAONE-3.5-7.8B-Instruct│  │  │
+       │                            │  │  └─────────────────────────────┘  │  │
        │                            │  └───────────────────────┘  │
        │                            └─────────────────────────────┘
        │                                          │

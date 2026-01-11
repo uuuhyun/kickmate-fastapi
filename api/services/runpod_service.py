@@ -220,12 +220,12 @@ VAR 심판: {get_val("varReferees")}"""
         # OpenAI Chat Completion API 형식
         # /openai/v1/chat/completions 엔드포인트는 표준 OpenAI 형식 사용
         payload = {
-            "model": "skt/a.x-4.0-light",  # Colab 코드와 동일하게
+            "model": "lgai-exaone/exaone-3.5-7.8b-instruct",  # RunPod 엔드포인트 모델
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            "max_tokens": 4096,  # 모델 컨텍스트 길이(8192) 초과 방지
+            "max_tokens": 4096,  # 모델 컨텍스트 길이 초과 방지
             "temperature": 0.7,
             "top_p": 0.9,
             "stream": False
