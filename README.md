@@ -1,6 +1,9 @@
 # K리그 AI 해설 FastAPI 서버
 
 RunPod Serverless LLM을 사용한 K리그 실시간 AI 해설 생성 FastAPI 백엔드
+![킥메이트_발표자료_1](https://github.com/user-attachments/assets/ab298e3e-2436-4232-b730-fe5aa3b12c17)
+![킥메이트_발표자료_7](https://github.com/user-attachments/assets/b6a6a5b4-94bf-429c-bd7a-658f089b0aa2)
+![킥메이트_발표자료_8](https://github.com/user-attachments/assets/859fe6c4-a70b-42fa-9201-0084b2f8238c)
 
 ## 관련 링크
 
